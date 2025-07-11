@@ -12,10 +12,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 @Setter
+@Getter
 @Entity
-public class Movie extends AuditableAbstractAggregateRoot<Movie> {
+public class Serie extends AuditableAbstractAggregateRoot<Serie> {
 
     @Id
     private String id;
@@ -31,7 +31,9 @@ public class Movie extends AuditableAbstractAggregateRoot<Movie> {
     @ElementCollection
     private List<String> genero = new ArrayList<>();
 
-    private int duracion;
+    private int numTemporadas;
+
+    private int numEpisodios;
 
     private LocalDate fechaLanzamiento;
 
@@ -49,7 +51,7 @@ public class Movie extends AuditableAbstractAggregateRoot<Movie> {
 
     private String imagen;
 
-    protected Movie() {
+    protected Serie() {
         this.id = "";
         this.titulo = "";
         this.directorId = new DirectorId("");
@@ -61,17 +63,19 @@ public class Movie extends AuditableAbstractAggregateRoot<Movie> {
         this.imagen = "";
     }
 
-    public Movie(String id, String titulo, DirectorId directorId, List<ActorId> actoresId,
-                 List<String> genero, int duracion, LocalDate fechaLanzamiento,
-                 String idiomaOriginal, String paisOrigen, List<PlatformId> plataformasId,
-                 double calificacion, String sinopsis, String imagen) {
+    public Serie(String id, String titulo, DirectorId directorId, List<ActorId> actoresId,
+                 List<String> genero, int numTemporadas, int numEpisodios,
+                 LocalDate fechaLanzamiento, String idiomaOriginal, String paisOrigen,
+                 List<PlatformId> plataformasId, double calificacion,
+                 String sinopsis, String imagen) {
 
         this.id = id;
         this.titulo = titulo;
         this.directorId = directorId;
         this.actoresId = actoresId;
         this.genero = genero;
-        this.duracion = duracion;
+        this.numTemporadas = numTemporadas;
+        this.numEpisodios = numEpisodios;
         this.fechaLanzamiento = fechaLanzamiento;
         this.idiomaOriginal = idiomaOriginal;
         this.paisOrigen = paisOrigen;
