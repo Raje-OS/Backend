@@ -8,12 +8,16 @@ import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 
 public record CreateAuthorResource(
+
+        @NotBlank(message = "El id es obligatorio") // Agregar validación si es necesario
+        String id, // Aquí agregamos el campo id como String primero
+
         @NotBlank(message = "El nombre no puede estar vacío")
-        @Size(max = 80, message = "El nombre no puede exceder los 80 caracteres")
+        @Size(max = 200, message = "El nombre no puede exceder los 200 caracteres")
         String nombre,
 
         @NotBlank(message = "La descripción no puede estar vacía")
-        @Size(max = 255, message = "La descripción no puede exceder los 255 caracteres")
+        @Size(max = 4000, message = "La descripción no puede exceder los 4000 caracteres")
         String descripcion,
 
         @NotNull(message = "La fecha de nacimiento es obligatoria")
@@ -21,10 +25,7 @@ public record CreateAuthorResource(
         LocalDate fechaNacimiento,
 
         @NotBlank(message = "La ciudad es obligatoria")
-        String ciudad,
-
-        @NotBlank(message = "El país es obligatorio")
-        String pais,
+        String ciudad_origen,
 
         @NotBlank(message = "La URL de la imagen es obligatoria")
         String imagen

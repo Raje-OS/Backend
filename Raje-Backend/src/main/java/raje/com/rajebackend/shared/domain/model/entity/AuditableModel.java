@@ -12,11 +12,6 @@ import java.util.Date;
 @MappedSuperclass
 public class AuditableModel {
 
-    @Id
-    @Getter
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @Getter
     @Column(nullable = false, updatable = false)
     @CreatedDate

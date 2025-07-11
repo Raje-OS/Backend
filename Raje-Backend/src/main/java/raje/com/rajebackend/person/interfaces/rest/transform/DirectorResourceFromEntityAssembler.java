@@ -7,12 +7,11 @@ public class DirectorResourceFromEntityAssembler {
 
     public static DirectorResource toResourceFromEntity(Director director) {
         return new DirectorResource(
-                director.getIdDirector(),
+                director.getId(),
                 director.getNombre(),
                 director.getDescripcion(),
                 director.getFechaNacimiento(),
-                director.getCiudadOrigen().ciudad(),
-                director.getCiudadOrigen().pais(),
+                director.getCiudadOrigen().ciudad_origen(),
                 director.getImagen()
         );
     }

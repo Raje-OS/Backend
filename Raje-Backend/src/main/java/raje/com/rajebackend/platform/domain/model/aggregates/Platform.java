@@ -9,7 +9,8 @@ import raje.com.rajebackend.shared.domain.model.aggregates.AuditableAbstractAggr
 @Entity
 public class Platform extends AuditableAbstractAggregateRoot<Platform> {
 
-    private String Platformid;   // ID manual como "PL001"
+    @Id
+    private String id;   // ID manual como "PL001"
 
     private String nombre;
     private String descripcion;
@@ -19,15 +20,15 @@ public class Platform extends AuditableAbstractAggregateRoot<Platform> {
     private Credential credential;
 
     public Platform() {
-        this.Platformid = "";
+        this.id = "";
         this.nombre = "";
         this.descripcion = "";
         this.imagen = "";
         this.credential = new Credential("", "");
     }
 
-    public Platform(String Platformid, String nombre, String descripcion, String email, String password, String imagen) {
-        this.Platformid = Platformid;
+    public Platform(String id, String nombre, String descripcion, String email, String password, String imagen) {
+        this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.credential = new Credential(email, password);

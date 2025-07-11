@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class OpenApiConfiguration {
-    @Value("ACME Learning Center Platform")
+    @Value("RAJE")
     String applicationName;
 
     @Value("@project.description@")
@@ -32,7 +32,7 @@ public class OpenApiConfiguration {
                         .license(new License().name("Apache 2.0")
                                 .url("https://www.apache.org/licenses/LICENSE-2.0")))
                 .externalDocs(new ExternalDocumentation()
-                        .description("ACME Learning Center Platform Documentation")
+                        .description("RAJE BY CALETAINNOVATIONS")
                         .url("https://acme-learning-center-platform.wiki.github.io/docs"));
 
         return openApi;

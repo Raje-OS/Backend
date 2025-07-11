@@ -51,14 +51,14 @@ public class AuthorsController {
         return new ResponseEntity<>(authorResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{authorId}")
+    @GetMapping("/{id}") // Cambié "authorId" por "id"
     @Operation(summary = "Get author by ID", description = "Retrieves an author using their ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Author found"),
             @ApiResponse(responseCode = "404", description = "Author not found")
     })
-    public ResponseEntity<AuthorResource> getAuthorById(@PathVariable String authorId) {
-        var result = queryService.handle(new GetAuthorByIdQuery(authorId));
+    public ResponseEntity<AuthorResource> getAuthorById(@PathVariable String id) { // Cambié "authorId" por "id"
+        var result = queryService.handle(new GetAuthorByIdQuery(id));
 
         if (result.isEmpty()) return ResponseEntity.notFound().build();
 

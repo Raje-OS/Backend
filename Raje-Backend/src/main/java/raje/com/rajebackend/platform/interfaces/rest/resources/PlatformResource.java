@@ -1,8 +1,10 @@
 package raje.com.rajebackend.platform.interfaces.rest.resources;
 
 public record PlatformResource(
-        String Platformid,
+        String id,
         String nombre,
         String descripcion,
-        String imagen
+        String imagen,
+        String email,
+        String password
 ) {}

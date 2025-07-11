@@ -54,14 +54,14 @@ public class ActorsController {
         return new ResponseEntity<>(actorResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{actorId}")
+    @GetMapping("/{id}") // Usamos "id" en vez de "actorId"
     @Operation(summary = "Get actor by ID", description = "Retrieves an actor using its ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Actor found"),
             @ApiResponse(responseCode = "404", description = "Actor not found")
     })
-    public ResponseEntity<ActorResource> getActorById(@PathVariable String actorId) {
-        var result = queryService.handle(new GetActorByIdQuery(actorId));
+    public ResponseEntity<ActorResource> getActorById(@PathVariable String id) { // Cambié "actorId" por "id"
+        var result = queryService.handle(new GetActorByIdQuery(id));
 
         if (result.isEmpty()) return ResponseEntity.notFound().build();
 
@@ -75,7 +75,7 @@ public class ActorsController {
             @ApiResponse(responseCode = "200", description = "Actors found"),
             @ApiResponse(responseCode = "404", description = "Actors not found")
     })
-    public ResponseEntity<List<ActorResource>> getActorsByIds(@RequestParam List<String> id) {
+    public ResponseEntity<List<ActorResource>> getActorsByIds(@RequestParam List<String> id) { // Cambié "idActor" por "id"
         var actors = queryService.handle(new GetActorsByIdsQuery(id));
 
         if (actors == null || actors.isEmpty()) return ResponseEntity.notFound().build();

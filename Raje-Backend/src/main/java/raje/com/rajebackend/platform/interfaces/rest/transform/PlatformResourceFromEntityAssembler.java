@@ -7,10 +7,12 @@ public class PlatformResourceFromEntityAssembler {
 
     public static PlatformResource toResourceFromEntity(Platform platform) {
         return new PlatformResource(
-                platform.getPlatformid(),
+                platform.getId(),
                 platform.getNombre(),
                 platform.getDescripcion(),
-                platform.getImagen()
+                platform.getImagen(),
+                platform.getCredential().email(),
+                platform.getCredential().password()
         );
     }
 }

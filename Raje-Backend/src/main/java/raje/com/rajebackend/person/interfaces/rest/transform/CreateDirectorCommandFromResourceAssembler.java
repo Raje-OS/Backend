@@ -6,11 +6,11 @@ import raje.com.rajebackend.person.interfaces.rest.resources.CreateDirectorResou
 public class CreateDirectorCommandFromResourceAssembler {
     public static CreateDirectorCommand toCommandFromResource(CreateDirectorResource resource) {
         return new CreateDirectorCommand(
+                resource.id(),
                 resource.nombre(),
                 resource.descripcion(),
                 resource.fechaNacimiento(),
-                resource.ciudad(),
-                resource.pais(),
+                resource.ciudad_origen(),
                 resource.imagen()
         );
     }

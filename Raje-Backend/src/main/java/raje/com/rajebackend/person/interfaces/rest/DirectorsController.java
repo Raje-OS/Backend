@@ -51,14 +51,14 @@ public class DirectorsController {
         return new ResponseEntity<>(directorResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{directorId}")
+    @GetMapping("/{id}") // Cambié "directorId" por "id"
     @Operation(summary = "Get director by ID", description = "Retrieves a director using their ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Director found"),
             @ApiResponse(responseCode = "404", description = "Director not found")
     })
-    public ResponseEntity<DirectorResource> getDirectorById(@PathVariable String directorId) {
-        var result = queryService.handle(new GetDirectorByIdQuery(directorId));
+    public ResponseEntity<DirectorResource> getDirectorById(@PathVariable String id) { // Cambié "directorId" por "id"
+        var result = queryService.handle(new GetDirectorByIdQuery(id));
 
         if (result.isEmpty()) return ResponseEntity.notFound().build();
 

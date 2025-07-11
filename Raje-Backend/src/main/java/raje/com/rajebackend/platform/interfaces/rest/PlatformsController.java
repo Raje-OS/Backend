@@ -28,14 +28,14 @@ public class PlatformsController {
         this.queryService = queryService;
     }
 
-    @GetMapping("/{platformId}")
+    @GetMapping("/{id}") // Cambié "platformId" por "id"
     @Operation(summary = "Get platform by ID", description = "Retrieve a platform by its ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Platform found"),
             @ApiResponse(responseCode = "404", description = "Platform not found")
     })
-    public ResponseEntity<PlatformResource> getPlatformById(@PathVariable String platformId) {
-        var result = queryService.handle(new GetPlatformByIdQuery(platformId));
+    public ResponseEntity<PlatformResource> getPlatformById(@PathVariable String id) { // Cambié "platformId" por "id"
+        var result = queryService.handle(new GetPlatformByIdQuery(id));
 
         if (result.isEmpty()) return ResponseEntity.notFound().build();
 
@@ -67,7 +67,7 @@ public class PlatformsController {
             @ApiResponse(responseCode = "200", description = "Platforms found"),
             @ApiResponse(responseCode = "404", description = "Platforms not found")
     })
-    public ResponseEntity<List<PlatformResource>> getPlatformsByIds(@RequestParam List<String> ids) {
+    public ResponseEntity<List<PlatformResource>> getPlatformsByIds(@RequestParam List<String> ids) { // Cambié "id" por "ids"
         var platforms = queryService.handle(new GetPlatformsByIdsQuery(ids));
 
         if (platforms == null || platforms.isEmpty()) return ResponseEntity.notFound().build();

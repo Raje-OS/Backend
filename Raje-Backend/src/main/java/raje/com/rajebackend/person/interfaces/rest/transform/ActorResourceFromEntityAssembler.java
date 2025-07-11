@@ -7,12 +7,11 @@ public class ActorResourceFromEntityAssembler {
 
     public static ActorResource toResourceFromEntity(Actor actor) {
         return new ActorResource(
-                actor.getIdActor(),
+                actor.getId(),
                 actor.getNombre(),
                 actor.getDescripcion(),
                 actor.getFechaNacimiento(),
-                actor.getCiudadOrigen().ciudad(),
-                actor.getCiudadOrigen().pais(),
+                actor.getCiudadOrigen().ciudad_origen(),
                 actor.getImagen()
         );
     }

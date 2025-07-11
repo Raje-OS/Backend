@@ -7,11 +7,12 @@ public class CreateAuthorCommandFromResourceAssembler {
 
     public static CreateAuthorCommand toCommandFromResource(CreateAuthorResource resource) {
         return new CreateAuthorCommand(
+
+                resource.id(),
                 resource.nombre(),
                 resource.descripcion(),
                 resource.fechaNacimiento(),
-                resource.ciudad(),
-                resource.pais(),
+                resource.ciudad_origen(),
                 resource.imagen()
         );
     }
