@@ -8,12 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import raje.com.rajebackend.library.application.internal.commandservices.AddLocationToLibraryServiceImpl;
 import raje.com.rajebackend.library.application.internal.commandservices.RemoveLocationFromLibraryServiceImpl;
-import raje.com.rajebackend.library.domain.model.commands.AddLibraryLocationCommand;
-import raje.com.rajebackend.library.domain.model.commands.RemoveLibraryLocationCommand;
+import raje.com.rajebackend.library.application.internal.queryservices.LibraryCommandServiceImpl;
+import raje.com.rajebackend.library.domain.model.commands.*;
 import raje.com.rajebackend.library.domain.model.queries.GetLibraryByEmailQuery;
 import raje.com.rajebackend.library.domain.model.queries.GetLibraryByIdQuery;
 import raje.com.rajebackend.library.domain.services.LibraryQueryService;
-import raje.com.rajebackend.library.interfaces.rest.resources.LibraryResource;
+import raje.com.rajebackend.library.interfaces.rest.resources.*;
 import raje.com.rajebackend.library.interfaces.rest.transform.LibraryResourceFromEntityAssembler;
 
 import java.util.Map;
@@ -28,13 +28,16 @@ public class LibrariesController {
     private final LibraryQueryService queryService;
     private final AddLocationToLibraryServiceImpl addService;
     private final RemoveLocationFromLibraryServiceImpl removeService;
+    private final LibraryCommandServiceImpl commandService;
 
     public LibrariesController(LibraryQueryService queryService,
                                AddLocationToLibraryServiceImpl addService,
-                               RemoveLocationFromLibraryServiceImpl removeService) {
+                               RemoveLocationFromLibraryServiceImpl removeService,
+                               LibraryCommandServiceImpl commandService) {
         this.queryService = queryService;
         this.addService = addService;
         this.removeService = removeService;
+        this.commandService = commandService;
     }
 
     @GetMapping("/{id}")
@@ -81,4 +84,36 @@ public class LibrariesController {
         var updated = removeService.handle(command);
         return ResponseEntity.ok(LibraryResourceFromEntityAssembler.toResourceFromEntity(updated));
     }
+
+    @PostMapping("/sign-up")
+    @Operation(summary = "Register a new library", description = "Sign up a new library with hashed password")
+    public ResponseEntity<LibraryResource> signUp(@RequestBody SignUpLibraryResource resource) {
+        var command = new SignUpLibraryCommand(
+                resource.id(),
+                resource.nombre(),
+                resource.descripcion(),
+                resource.imagen(),     // imagen primero ✅
+                resource.email(),      // email ✅
+                resource.password()    // password ✅
+        );
+
+        var library = commandService.handle(command);
+        return ResponseEntity.ok(LibraryResourceFromEntityAssembler.toResourceFromEntity(library));
+    }
+
+    @PostMapping("/sign-in")
+    @Operation(summary = "Authenticate a library", description = "Sign in a library and return JWT token")
+    public ResponseEntity<SignInResponse> signIn(@RequestBody SignInLibraryResource resource) {
+        var command = new SignInLibraryCommand(resource.email(), resource.password());
+        var library = commandService.handle(command);
+
+        var token = commandService.generateTokenForLibrary(library);
+
+        return ResponseEntity.ok(new SignInResponse(
+                (String) token,
+                library.getId(),
+                library.getCredential().email()
+        ));
+    }
+
 }

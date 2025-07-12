@@ -79,6 +79,10 @@ public class WebSecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/api/v1/authentication/**",
+                                "/api/v1/platforms/sign-in",   // ← AÑADE ESTE
+                                "/api/v1/platforms/sign-up",   // ← AÑADE ESTE si también tienes sign-up
+                                "/api/v1/libraries/sign-in",   // ← AÑADE ESTE si también autenticas librerías
+                                "/api/v1/libraries/sign-up",   // ← AÑADE ESTE si también registras librerías
                                 "/v3/api-docs/**",
                                 "/swagger-ui.html",
                                 "/swagger-ui/**",

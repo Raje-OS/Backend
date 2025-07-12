@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface LibraryRepository extends JpaRepository<Library, String> {
     Optional<Library> findByCredential_EmailIgnoreCase(String email);
+    boolean existsByCredentialEmail(String email);
 }

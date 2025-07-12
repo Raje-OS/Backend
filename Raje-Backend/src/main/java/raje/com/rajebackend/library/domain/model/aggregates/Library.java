@@ -21,6 +21,10 @@ public class Library extends AuditableAbstractAggregateRoot<Library> {
     private String imagen;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "email", column = @Column(name = "email")),
+            @AttributeOverride(name = "password", column = @Column(name = "password"))
+    })
     private Credential credential;
 
     @ElementCollection(fetch = FetchType.EAGER)

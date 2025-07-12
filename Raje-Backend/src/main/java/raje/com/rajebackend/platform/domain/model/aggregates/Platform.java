@@ -2,10 +2,12 @@ package raje.com.rajebackend.platform.domain.model.aggregates;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 import raje.com.rajebackend.platform.domain.model.valueobjects.Credential;
 import raje.com.rajebackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
 @Getter
+@Setter
 @Entity
 public class Platform extends AuditableAbstractAggregateRoot<Platform> {
 
@@ -17,7 +19,12 @@ public class Platform extends AuditableAbstractAggregateRoot<Platform> {
     private String imagen;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "email", column = @Column(name = "email")),
+            @AttributeOverride(name = "password", column = @Column(name = "password"))
+    })
     private Credential credential;
+
 
     public Platform() {
         this.id = "";
