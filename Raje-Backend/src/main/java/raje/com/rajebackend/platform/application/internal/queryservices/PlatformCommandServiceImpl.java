@@ -10,6 +10,9 @@ import raje.com.rajebackend.platform.domain.services.PlatformCommandService;
 import raje.com.rajebackend.platform.infrastructure.persistence.jpa.repositories.PlatformRepository;
 import raje.com.rajebackend.iam.application.internal.outboundservices.tokens.TokenService;
 
+/**
+ * Service implementation for handling platform commands such as sign-in and sign-up.
+ */
 @Service
 public class PlatformCommandServiceImpl implements PlatformCommandService {
 
@@ -17,12 +20,27 @@ public class PlatformCommandServiceImpl implements PlatformCommandService {
     private final TokenService tokenService;
     private final HashingService hashingService;
 
+    /**
+     * Constructs a new PlatformCommandServiceImpl with the required dependencies.
+     *
+     * @param platformRepository the repository for platform persistence
+     * @param tokenService the service responsible for generating authentication tokens
+     * @param hashingService the service responsible for encoding and matching passwords
+     */
     public PlatformCommandServiceImpl(PlatformRepository platformRepository, TokenService tokenService, HashingService hashingService) {
         this.platformRepository = platformRepository;
         this.tokenService = tokenService;
         this.hashingService = hashingService;
     }
 
+    /**
+     * Handles the sign-in logic for a platform.
+     * Validates the email and password, then generates an authentication token.
+     *
+     * @param command the sign-in command containing email and password
+     * @return the authenticated Platform
+     * @throws IllegalArgumentException if the email is not found or the password is incorrect
+     */
     @Override
     @Transactional(readOnly = true)
     public Platform handle(SignInPlatformCommand command) {
@@ -40,7 +58,14 @@ public class PlatformCommandServiceImpl implements PlatformCommandService {
         return platform;
     }
 
-
+    /**
+     * Handles the sign-up logic for a new platform.
+     * Verifies if the email already exists, encodes the password, and persists the new platform.
+     *
+     * @param command the sign-up command containing platform registration details
+     * @return the created Platform
+     * @throws IllegalArgumentException if the email already exists
+     */
     @Override
     public Platform handle(SignUpPlatformCommand command) {
         if (platformRepository.existsByCredentialEmail(command.email())) {
@@ -57,8 +82,6 @@ public class PlatformCommandServiceImpl implements PlatformCommandService {
                 hashedPassword,
                 command.imagen()
         );
-
-
 
         return platformRepository.save(platform);
     }

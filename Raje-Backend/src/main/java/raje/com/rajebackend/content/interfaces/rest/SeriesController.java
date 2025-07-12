@@ -27,11 +27,16 @@ public class SeriesController {
     private final SerieQueryService queryService;
     private final UpdateSerieServiceImpl updateService;
 
+    // Constructor injecting query and update services
     public SeriesController(SerieQueryService queryService, UpdateSerieServiceImpl updateService) {
         this.queryService = queryService;
         this.updateService = updateService;
     }
 
+    /**
+     * Endpoint to retrieve all series without any specific order.
+     * @return 200 OK with the list of series, or 404 if none are found
+     */
     @GetMapping
     @Operation(summary = "Get all series", description = "Retrieve all series without any specific order")
     @ApiResponses(value = {
@@ -40,7 +45,7 @@ public class SeriesController {
     })
     public ResponseEntity<List<SerieResource>> getAllSeries() {
         var series = queryService.handle(new GetAllSeriesQuery()).stream()
-                .map(SerieResourceFromEntityAssembler::toResourceFromEntity)
+                .map(SerieResourceFromEntityAssembler::toResourceFromEntity) // Convert domain entities to resources
                 .toList();
 
         if (series.isEmpty()) return ResponseEntity.notFound().build();
@@ -48,6 +53,10 @@ public class SeriesController {
         return ResponseEntity.ok(series);
     }
 
+    /**
+     * Endpoint to retrieve all series sorted by rating in descending order.
+     * @return 200 OK with sorted list of series, or 404 if none are found
+     */
     @GetMapping("/ordered-by-rating")
     @Operation(summary = "Get all series ordered by rating", description = "Retrieve all series sorted by rating (desc)")
     @ApiResponses(value = {
@@ -64,6 +73,11 @@ public class SeriesController {
         return ResponseEntity.ok(series);
     }
 
+    /**
+     * Endpoint to retrieve a specific series by its ID.
+     * @param id the unique identifier of the series
+     * @return 200 OK with the series, or 404 if not found
+     */
     @GetMapping("/{id}")
     @Operation(summary = "Get series by ID", description = "Retrieve a series by its ID")
     @ApiResponses(value = {
@@ -77,6 +91,13 @@ public class SeriesController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    /**
+     * Endpoint to update a series.
+     * Validates that the ID in the path matches the ID in the request body.
+     * @param id the series ID from the path
+     * @param command the update command containing new data
+     * @return 200 OK with updated series, 400 if ID mismatch, or 404 if not found
+     */
     @PutMapping("/{id}")
     @Operation(summary = "Update a series", description = "Update the information of a series by ID")
     @ApiResponses(value = {
@@ -86,10 +107,10 @@ public class SeriesController {
     })
     public ResponseEntity<SerieResource> updateSerie(@PathVariable String id, @RequestBody UpdateSerieCommand command) {
         if (!id.equals(command.id())) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().build(); // Return 400 if path and body IDs do not match
         }
 
-        var updated = updateService.handle(command);
+        var updated = updateService.handle(command); // Perform update operation
         return ResponseEntity.ok(SerieResourceFromEntityAssembler.toResourceFromEntity(updated));
     }
 }

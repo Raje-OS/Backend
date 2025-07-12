@@ -20,6 +20,9 @@ import raje.com.rajebackend.person.interfaces.rest.transform.CreateAuthorCommand
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+/**
+ * REST controller for handling operations related to authors.
+ */
 @RestController
 @RequestMapping(value = "/api/v1/authors", produces = APPLICATION_JSON_VALUE)
 @Tag(name = "Authors", description = "Operations related to authors")
@@ -33,6 +36,12 @@ public class AuthorsController {
         this.queryService = queryService;
     }
 
+    /**
+     * Creates a new author with the provided information.
+     *
+     * @param resource the details of the author to create
+     * @return the created AuthorResource or 400 if the input is invalid
+     */
     @PostMapping
     @Operation(summary = "Create a new author", description = "Creates a new author with the provided details.")
     @ApiResponses(value = {
@@ -51,13 +60,19 @@ public class AuthorsController {
         return new ResponseEntity<>(authorResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}") // Cambié "authorId" por "id"
+    /**
+     * Retrieves an author by their ID.
+     *
+     * @param id the unique identifier of the author
+     * @return the AuthorResource if found, or 404 if not found
+     */
+    @GetMapping("/{id}")
     @Operation(summary = "Get author by ID", description = "Retrieves an author using their ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Author found"),
             @ApiResponse(responseCode = "404", description = "Author not found")
     })
-    public ResponseEntity<AuthorResource> getAuthorById(@PathVariable String id) { // Cambié "authorId" por "id"
+    public ResponseEntity<AuthorResource> getAuthorById(@PathVariable String id) {
         var result = queryService.handle(new GetAuthorByIdQuery(id));
 
         if (result.isEmpty()) return ResponseEntity.notFound().build();

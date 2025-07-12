@@ -13,15 +13,23 @@ public class UpdateBookServiceImpl {
 
     private final BookRepository bookRepository;
 
+    // Constructor that injects the BookRepository dependency
     public UpdateBookServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
+    /**
+     * Handles the update of a Book entity based on the provided command.
+     * @param command the update command containing the new values for the book
+     * @return the updated Book entity
+     */
     @Transactional
     public Book handle(UpdateBookCommand command) {
+        // Retrieve the book by ID or throw an exception if not found
         var book = bookRepository.findById(command.id())
                 .orElseThrow(() -> new IllegalArgumentException("Book not found with ID: " + command.id()));
 
+        // Update the book's attributes with values from the command
         book.setTitulo(command.titulo());
         book.setAutorId(new AuthorId(command.autorId()));
         book.setGenero(command.genero());
@@ -35,9 +43,11 @@ public class UpdateBookServiceImpl {
         book.setSinopsis(command.sinopsis());
         book.setImagen(command.imagen());
 
+        // Clear and update the associated library IDs
         book.getLibreriasId().clear();
         book.getLibreriasId().addAll(command.libreriasId().stream().map(LibraryId::new).toList());
 
+        // Save and return the updated book entity
         return bookRepository.save(book);
     }
 }

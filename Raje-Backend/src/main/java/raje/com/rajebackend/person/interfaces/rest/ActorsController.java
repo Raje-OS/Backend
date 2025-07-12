@@ -23,6 +23,10 @@ import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+/**
+ * REST controller for managing Author resources.
+ */
+
 @RestController
 @RequestMapping(value = "/api/v1/actors", produces = APPLICATION_JSON_VALUE)
 @Tag(name = "Actors", description = "Operations related to actors")
@@ -35,6 +39,13 @@ public class ActorsController {
         this.commandService = commandService;
         this.queryService = queryService;
     }
+
+    /**
+     * Endpoint to create a new author.
+     *
+     * @param resource the author creation resource with author details
+     * @return the created Author resource or 400 Bad Request if creation failed
+     */
 
     @PostMapping
     @Operation(summary = "Create a new actor", description = "Creates a new actor with the provided details.")
@@ -53,7 +64,12 @@ public class ActorsController {
         var actorResponse = ActorResourceFromEntityAssembler.toResourceFromEntity(created);
         return new ResponseEntity<>(actorResponse, HttpStatus.CREATED);
     }
-
+    /**
+     * Endpoint to retrieve an author by ID.
+     *
+     * @param id the ID of the author to retrieve
+     * @return the Author resource if found, or 404 Not Found otherwise
+     */
     @GetMapping("/{id}") // Usamos "id" en vez de "actorId"
     @Operation(summary = "Get actor by ID", description = "Retrieves an actor using its ID")
     @ApiResponses(value = {
@@ -87,3 +103,4 @@ public class ActorsController {
         return ResponseEntity.ok(actorResources);
     }
 }
+

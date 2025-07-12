@@ -15,22 +15,39 @@ import java.util.Optional;
 @Service
 public class BookQueryServiceImpl implements BookQueryService {
 
+    // Repository used to access the Book data from the database
     private final BookRepository bookRepository;
 
+    // Constructor injecting the BookRepository dependency
     public BookQueryServiceImpl(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 
+    /**
+     * Handles the query to retrieve all books from the repository.
+     * @param query the query object (not used in this case)
+     * @return a list of all Book entities
+     */
     @Override
     public List<Book> handle(GetAllBooksQuery query) {
         return bookRepository.findAll();
     }
 
+    /**
+     * Handles the query to retrieve a single book by its ID.
+     * @param query contains the ID of the book to be retrieved
+     * @return an Optional containing the Book if found, or empty if not
+     */
     @Override
     public Optional<Book> handle(GetBookByIdQuery query) {
         return bookRepository.findById(query.id());
     }
 
+    /**
+     * Handles the query to retrieve all books ordered by rating in descending order.
+     * @param query the query object (not used in this case)
+     * @return a list of books sorted by their rating, highest first
+     */
     @Override
     public List<Book> handle(GetAllBooksOrderedByRatingQuery query) {
         return bookRepository.findAll().stream()

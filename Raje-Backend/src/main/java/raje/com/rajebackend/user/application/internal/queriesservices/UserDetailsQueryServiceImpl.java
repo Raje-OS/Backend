@@ -1,4 +1,4 @@
-package raje.com.rajebackend.user.application.internal.queryservices;
+package raje.com.rajebackend.user.application.internal.queriesservices;
 
 import org.springframework.stereotype.Service;
 import raje.com.rajebackend.user.domain.model.aggregates.UserDetails;

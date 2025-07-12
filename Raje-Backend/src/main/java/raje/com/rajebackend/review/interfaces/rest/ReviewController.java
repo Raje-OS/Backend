@@ -22,6 +22,10 @@ import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+/**
+ * REST controller for managing user reviews.
+ * Provides endpoints for creating, retrieving, updating, and deleting reviews.
+ */
 @RestController
 @RequestMapping(value = "/api/v1/reviews", produces = APPLICATION_JSON_VALUE)
 @Tag(name = "Reviews", description = "Operations related to user reviews")
@@ -35,6 +39,11 @@ public class ReviewController {
         this.commandService = commandService;
     }
 
+    /**
+     * Retrieves all reviews.
+     *
+     * @return a list of all reviews
+     */
     @GetMapping
     @Operation(summary = "Get all reviews", description = "Retrieve all reviews")
     @ApiResponses({
@@ -52,6 +61,12 @@ public class ReviewController {
         return ResponseEntity.ok(resources);
     }
 
+    /**
+     * Retrieves reviews by a specific user ID.
+     *
+     * @param userId the ID of the user
+     * @return a list of reviews made by the user
+     */
     @GetMapping("/user/{userId}")
     @Operation(summary = "Get reviews by user ID", description = "Retrieve all reviews by a specific user")
     @ApiResponses({
@@ -69,6 +84,12 @@ public class ReviewController {
         return ResponseEntity.ok(resources);
     }
 
+    /**
+     * Retrieves reviews by content ID.
+     *
+     * @param contenidoId the ID of the content
+     * @return a list of reviews associated with the content
+     */
     @GetMapping("/content/{contenidoId}")
     @Operation(summary = "Get reviews by content ID", description = "Retrieve all reviews for a specific content")
     @ApiResponses({
@@ -86,6 +107,12 @@ public class ReviewController {
         return ResponseEntity.ok(resources);
     }
 
+    /**
+     * Creates a new review.
+     *
+     * @param resource the resource containing review data
+     * @return the created review
+     */
     @PostMapping
     @Operation(summary = "Create a review", description = "Register a new user review")
     @ApiResponses({
@@ -98,6 +125,13 @@ public class ReviewController {
         return ResponseEntity.ok(ReviewResourceFromEntityAssembler.toResourceFromEntity(created));
     }
 
+    /**
+     * Updates an existing review by ID.
+     *
+     * @param id      the ID of the review to update
+     * @param command the updated review data
+     * @return the updated review
+     */
     @PutMapping("/{id}")
     @Operation(summary = "Update a review", description = "Update an existing review by ID")
     @ApiResponses({
@@ -111,6 +145,12 @@ public class ReviewController {
         return ResponseEntity.ok(ReviewResourceFromEntityAssembler.toResourceFromEntity(updated));
     }
 
+    /**
+     * Deletes a review by its ID.
+     *
+     * @param id the ID of the review to delete
+     * @return a response indicating the operation result
+     */
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete review by ID", description = "Deletes a review given its ID")
     @ApiResponses(value = {
@@ -121,5 +161,4 @@ public class ReviewController {
         commandService.handleDelete(id);
         return ResponseEntity.ok().build();
     }
-
 }

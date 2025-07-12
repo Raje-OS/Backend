@@ -20,6 +20,10 @@ import java.util.Map;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+/**
+ * REST controller for handling library-related operations.
+ */
+
 @RestController
 @RequestMapping(value = "/api/v1/libraries", produces = APPLICATION_JSON_VALUE)
 @Tag(name = "Libraries", description = "Operations related to libraries")
@@ -39,7 +43,12 @@ public class LibrariesController {
         this.removeService = removeService;
         this.commandService = commandService;
     }
-
+    /**
+     * Retrieves a library by its ID.
+     *
+     * @param id the library ID
+     * @return the corresponding LibraryResource if found, 404 otherwise
+     */
     @GetMapping("/{id}")
     @Operation(summary = "Get library by ID", description = "Retrieve a library by its ID")
     @ApiResponses(value = {
@@ -52,7 +61,12 @@ public class LibrariesController {
                         ResponseEntity.ok(LibraryResourceFromEntityAssembler.toResourceFromEntity(library)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
+    /**
+     * Retrieves a library by its email.
+     *
+     * @param email the email of the library
+     * @return the corresponding LibraryResource if found, 404 otherwise
+     */
     @GetMapping
     @Operation(summary = "Get library by email", description = "Retrieve a library by its email")
     @ApiResponses(value = {
@@ -65,7 +79,13 @@ public class LibrariesController {
                         ResponseEntity.ok(LibraryResourceFromEntityAssembler.toResourceFromEntity(library)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
+    /**
+     * Adds a new location to a library.
+     *
+     * @param id    the ID of the library
+     * @param body  the location details to add
+     * @return the updated LibraryResource
+     */
     @PutMapping("/{id}/add-location")
     @Operation(summary = "Add location to library", description = "Add a new location to a library")
     public ResponseEntity<LibraryResource> addLocation(@PathVariable String id,
@@ -74,7 +94,13 @@ public class LibrariesController {
         var updated = addService.handle(command);
         return ResponseEntity.ok(LibraryResourceFromEntityAssembler.toResourceFromEntity(updated));
     }
-
+    /**
+     * Removes a location from a library using its address.
+     *
+     * @param id      the ID of the library
+     * @param payload JSON map with "direccion" key
+     * @return the updated LibraryResource
+     */
     @PutMapping("/{id}/remove-location")
     @Operation(summary = "Remove location from library", description = "Remove a location from a library by direccion")
     public ResponseEntity<LibraryResource> removeLocation(@PathVariable String id,
@@ -84,7 +110,12 @@ public class LibrariesController {
         var updated = removeService.handle(command);
         return ResponseEntity.ok(LibraryResourceFromEntityAssembler.toResourceFromEntity(updated));
     }
-
+    /**
+     * Registers a new library.
+     *
+     * @param resource the library signup information
+     * @return the created LibraryResource
+     */
     @PostMapping("/sign-up")
     @Operation(summary = "Register a new library", description = "Sign up a new library with hashed password")
     public ResponseEntity<LibraryResource> signUp(@RequestBody SignUpLibraryResource resource) {
@@ -100,7 +131,12 @@ public class LibrariesController {
         var library = commandService.handle(command);
         return ResponseEntity.ok(LibraryResourceFromEntityAssembler.toResourceFromEntity(library));
     }
-
+    /**
+     * Authenticates a library and returns a JWT token.
+     *
+     * @param resource the login credentials
+     * @return a SignInResponse with token, library ID, and email
+     */
     @PostMapping("/sign-in")
     @Operation(summary = "Authenticate a library", description = "Sign in a library and return JWT token")
     public ResponseEntity<SignInResponse> signIn(@RequestBody SignInLibraryResource resource) {

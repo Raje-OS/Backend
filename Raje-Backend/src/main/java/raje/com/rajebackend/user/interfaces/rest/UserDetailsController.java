@@ -20,6 +20,9 @@ import java.util.Optional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+/**
+ * REST controller for managing user details (favorites, viewed, wardrobe, etc).
+ */
 @RestController
 @RequestMapping(value = "/api/v1/userdetails", produces = APPLICATION_JSON_VALUE)
 @Tag(name = "UserDetails", description = "Operations related to user details")
@@ -28,12 +31,24 @@ public class UserDetailsController {
     private final UserDetailsQueryService queryService;
     private final UserDetailsCommandServiceImpl commandService;
 
+    /**
+     * Constructor for dependency injection.
+     *
+     * @param queryService   service for reading user details
+     * @param commandService service for creating or updating user details
+     */
     public UserDetailsController(UserDetailsQueryService queryService,
                                  UserDetailsCommandServiceImpl commandService) {
         this.queryService = queryService;
         this.commandService = commandService;
     }
 
+    /**
+     * Get user details by user ID.
+     *
+     * @param userId the ID of the user
+     * @return {@link UserDetailsResource} if found, or 404 otherwise
+     */
     @GetMapping("/user/{userId}")
     @Operation(summary = "Get user details by user ID", description = "Retrieve user details for a given user")
     @ApiResponses({
@@ -47,6 +62,12 @@ public class UserDetailsController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    /**
+     * Create a new user details entry.
+     *
+     * @param resource the request body containing the new user details
+     * @return the created {@link UserDetailsResource}
+     */
     @PostMapping
     @Operation(summary = "Create user details", description = "Register a new user details entry")
     @ApiResponses({
@@ -59,6 +80,13 @@ public class UserDetailsController {
         return ResponseEntity.ok(UserDetailsResourceFromEntityAssembler.toResourceFromEntity(created));
     }
 
+    /**
+     * Update user details by ID.
+     *
+     * @param id       the ID of the userDetails to update
+     * @param resource the updated data to apply
+     * @return the updated {@link UserDetailsResource}, or 400 if ID mismatch, or 404 if not found
+     */
     @PutMapping("/{id}")
     @Operation(summary = "Update user details", description = "Update favorites and viewed list")
     @ApiResponses({

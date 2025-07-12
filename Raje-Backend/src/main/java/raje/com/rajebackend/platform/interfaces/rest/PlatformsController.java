@@ -23,6 +23,10 @@ import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+/**
+ * REST controller for managing platform-related operations such as registration,
+ * authentication, and retrieval of platform information.
+ */
 @RestController
 @RequestMapping(value = "/api/v1/platforms", produces = APPLICATION_JSON_VALUE)
 @Tag(name = "Platforms", description = "Operations related to platforms")
@@ -40,6 +44,12 @@ public class PlatformsController {
         this.tokenService = tokenService;
     }
 
+    /**
+     * Retrieves a platform by its unique ID.
+     *
+     * @param id the ID of the platform
+     * @return the platform resource if found, 404 otherwise
+     */
     @GetMapping("/{id}")
     @Operation(summary = "Get platform by ID", description = "Retrieve a platform by its ID")
     @ApiResponses(value = {
@@ -55,6 +65,11 @@ public class PlatformsController {
         return ResponseEntity.ok(resource);
     }
 
+    /**
+     * Retrieves all platforms from the system.
+     *
+     * @return a list of all platform resources, or 404 if none found
+     */
     @GetMapping
     @Operation(summary = "Get all platforms", description = "Retrieve all platforms")
     @ApiResponses(value = {
@@ -73,6 +88,12 @@ public class PlatformsController {
         return ResponseEntity.ok(platformResources);
     }
 
+    /**
+     * Retrieves multiple platforms by their IDs.
+     *
+     * @param ids list of platform IDs
+     * @return a list of platform resources, or 404 if none found
+     */
     @GetMapping("/by-ids")
     @Operation(summary = "Get platforms by multiple IDs", description = "Retrieve platforms given multiple IDs")
     @ApiResponses(value = {
@@ -91,6 +112,12 @@ public class PlatformsController {
         return ResponseEntity.ok(platformResources);
     }
 
+    /**
+     * Authenticates a platform using provided credentials and returns a JWT token.
+     *
+     * @param command the sign-in command containing email and password
+     * @return the token and basic platform info if authentication succeeds
+     */
     @PostMapping("/sign-in")
     @Operation(summary = "Sign in as a platform", description = "Authenticate a platform and return a token")
     @ApiResponses(value = {
@@ -105,7 +132,12 @@ public class PlatformsController {
         return ResponseEntity.ok(resource);
     }
 
-
+    /**
+     * Registers a new platform with the provided information.
+     *
+     * @param resource the resource containing sign-up data
+     * @return the created platform resource with status 201
+     */
     @PostMapping("/sign-up")
     @Operation(summary = "Sign up as a platform", description = "Register a new platform")
     @ApiResponses(value = {

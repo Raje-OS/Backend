@@ -15,15 +15,26 @@ public class UserQueryServiceImpl implements UserQueryService {
 
     private final UserRepository userRepository;
 
+    // Constructor injecting the UserRepository dependency
     public UserQueryServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    /**
+     * Handles the query to retrieve all users from the database.
+     * @param query the query object (not used in this implementation)
+     * @return a list of all User entities
+     */
     @Override
     public List<User> handle(GetAllUsersQuery query) {
         return userRepository.findAll();
     }
 
+    /**
+     * Handles the query to retrieve a user by their unique ID.
+     * @param query contains the ID of the user to be retrieved
+     * @return an Optional containing the User if found, or empty if not found
+     */
     @Override
     public Optional<User> handle(GetUserByIdQuery query) {
         return userRepository.findById(query.id());

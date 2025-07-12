@@ -19,8 +19,8 @@ import java.util.Date;
 import java.util.function.Function;
 
 /**
- * Implementación del servicio de tokens JWT para RAJE.
- * Se encarga de generar, validar y extraer información de los tokens JWT.
+ * Implementation of the JWT token service for RAJE.
+ * Responsible for generating, validating, and extracting data from JWT tokens.
  */
 @Service
 public class TokenServiceImpl implements BearerTokenService {
@@ -36,13 +36,22 @@ public class TokenServiceImpl implements BearerTokenService {
     @Value("${authorization.jwt.expiration.days}")
     private int expirationDays;
 
-    // Generar token desde Authentication
+
+    /**
+     * Generates a JWT token using the authenticated user's details.
+     * @param authentication the Spring Security Authentication object
+     * @return a signed JWT token
+     */
     @Override
     public String generateToken(Authentication authentication) {
         return buildToken(authentication.getName());
     }
 
-    // Generar token desde username
+    /**
+     * Generates a JWT token from a given username.
+     * @param username the user’s username
+     * @return a signed JWT token
+     */
     @Override
     public String generateToken(String username) {
         return buildToken(username);

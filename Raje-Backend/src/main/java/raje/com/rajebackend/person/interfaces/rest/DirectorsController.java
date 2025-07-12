@@ -20,6 +20,9 @@ import raje.com.rajebackend.person.interfaces.rest.transform.CreateDirectorComma
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
+/**
+ * REST controller for handling operations related to directors.
+ */
 @RestController
 @RequestMapping(value = "/api/v1/directors", produces = APPLICATION_JSON_VALUE)
 @Tag(name = "Directors", description = "Operations related to directors")
@@ -33,6 +36,12 @@ public class DirectorsController {
         this.queryService = queryService;
     }
 
+    /**
+     * Creates a new director with the provided details.
+     *
+     * @param resource the data needed to create a director
+     * @return the created DirectorResource with status 201 or 400 if the input is invalid
+     */
     @PostMapping
     @Operation(summary = "Create a new director", description = "Creates a new director with the provided details.")
     @ApiResponses(value = {
@@ -51,13 +60,19 @@ public class DirectorsController {
         return new ResponseEntity<>(directorResponse, HttpStatus.CREATED);
     }
 
-    @GetMapping("/{id}") // Cambié "directorId" por "id"
+    /**
+     * Retrieves a director by their ID.
+     *
+     * @param id the ID of the director to retrieve
+     * @return the DirectorResource if found, or 404 if not found
+     */
+    @GetMapping("/{id}")
     @Operation(summary = "Get director by ID", description = "Retrieves a director using their ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Director found"),
             @ApiResponse(responseCode = "404", description = "Director not found")
     })
-    public ResponseEntity<DirectorResource> getDirectorById(@PathVariable String id) { // Cambié "directorId" por "id"
+    public ResponseEntity<DirectorResource> getDirectorById(@PathVariable String id) {
         var result = queryService.handle(new GetDirectorByIdQuery(id));
 
         if (result.isEmpty()) return ResponseEntity.notFound().build();
