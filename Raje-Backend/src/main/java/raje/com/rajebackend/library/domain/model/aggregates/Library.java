@@ -23,13 +23,13 @@ public class Library extends AuditableAbstractAggregateRoot<Library> {
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "email", column = @Column(name = "email")),
+        
             @AttributeOverride(name = "password", column = @Column(name = "password"))
     })
     private Credential credential;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<Location> ubicaciones = new ArrayList<>();
-
     protected Library() {
         this.id = "";
         this.nombre = "";
@@ -37,7 +37,6 @@ public class Library extends AuditableAbstractAggregateRoot<Library> {
         this.imagen = "";
         this.credential = new Credential("", "");
     }
-
     public Library(String id, String nombre, String descripcion, String imagen, String email, String password) {
         this.id = id;
         this.nombre = nombre;
@@ -45,7 +44,6 @@ public class Library extends AuditableAbstractAggregateRoot<Library> {
         this.imagen = imagen;
         this.credential = new Credential(email, password);
     }
-
     public void addUbicacion(Location location) {
         this.ubicaciones.add(location);
     }
