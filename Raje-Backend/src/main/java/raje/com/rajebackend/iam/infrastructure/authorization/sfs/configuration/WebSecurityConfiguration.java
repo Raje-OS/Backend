@@ -65,35 +65,36 @@ public class WebSecurityConfiguration {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.cors(cors -> cors.configurationSource(_ -> {
-                    var config = new CorsConfiguration();
-                    config.setAllowedOrigins(List.of("*"));
-                    config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
-                    config.setAllowedHeaders(List.of("*"));
-                    return config;
-                }))
-                .csrf(csrf -> csrf.disable())
-                .exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedRequestHandler))
-                .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/api/v1/authentication/**",
-                                "/api/v1/platforms/sign-in",   // ← AÑADE ESTE
-                                "/api/v1/platforms/sign-up",   // ← AÑADE ESTE si también tienes sign-up
-                                "/api/v1/libraries/sign-in",   // ← AÑADE ESTE si también autenticas librerías
-                                "/api/v1/libraries/sign-up",   // ← AÑADE ESTE si también registras librerías
-                                "/v3/api-docs/**",
-                                "/swagger-ui.html",
-                                "/swagger-ui/**",
-                                "/swagger-resources/**",
-                                "/webjars/**"
-                        ).permitAll()
-                        .anyRequest().authenticated()
-                );
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    http.cors(cors -> cors.configurationSource(req -> {
+                var config = new CorsConfiguration();
+                config.setAllowedOrigins(List.of("*"));
+                config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+                config.setAllowedHeaders(List.of("*"));
+                return config;
+            }))
+            .csrf(csrf -> csrf.disable())
+            .exceptionHandling(ex -> ex.authenticationEntryPoint(unauthorizedRequestHandler))
+            .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers(
+                            "/api/v1/authentication/**",
+                            "/api/v1/platforms/sign-in",
+                            "/api/v1/platforms/sign-up",
+                            "/api/v1/libraries/sign-in",
+                            "/api/v1/libraries/sign-up",
+                            "/v3/api-docs/**",
+                            "/swagger-ui.html",
+                            "/swagger-ui/**",
+                            "/swagger-resources/**",
+                            "/webjars/**"
+                    ).permitAll()
+                    .anyRequest().authenticated()
+            );
 
-        http.authenticationProvider(authenticationProvider());
-        http.addFilterBefore(authorizationRequestFilter(), UsernamePasswordAuthenticationFilter.class);
-        return http.build();
-    }
+    http.authenticationProvider(authenticationProvider());
+    http.addFilterBefore(authorizationRequestFilter(), UsernamePasswordAuthenticationFilter.class);
+    return http.build();
+}
+
 }
