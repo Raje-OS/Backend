@@ -11,7 +11,8 @@ public class CreateReviewCommandFromResourceAssembler {
                 resource.userId(),
                 resource.contenidoId(),
                 resource.rating(),
-                resource.text()
+                resource.text(),
+                resource.createdAt()
         );
     }
 }

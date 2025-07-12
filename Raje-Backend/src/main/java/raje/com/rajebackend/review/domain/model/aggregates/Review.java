@@ -11,6 +11,7 @@ import raje.com.rajebackend.review.domain.model.valueobjects.Rating;
 import raje.com.rajebackend.review.domain.model.valueobjects.UserId;
 import raje.com.rajebackend.shared.domain.model.aggregates.AuditableAbstractAggregateRoot;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -31,7 +32,7 @@ public class Review extends AuditableAbstractAggregateRoot<Review> {
 
     private String text;
 
-
+    private LocalDate createdAt;
 
     protected Review() {
         this.id = "";
@@ -39,6 +40,7 @@ public class Review extends AuditableAbstractAggregateRoot<Review> {
         this.contenidoId = new ContentId("");
         this.rating = new Rating(0); // Puede ser 0 a 5
         this.text = "";
+        this.createdAt = LocalDate.now();
 
     }
 
@@ -49,7 +51,7 @@ public class Review extends AuditableAbstractAggregateRoot<Review> {
         this.contenidoId = new ContentId(command.contenidoId());
         this.rating = new Rating(command.rating());
         this.text = (command.text() != null) ? command.text().trim() : "";
-
+        this.createdAt = command.createdAt();
     }
 
 

@@ -9,7 +9,7 @@ public class UserId {
     protected UserId() {}
 
     public UserId(String UserId) {
-        if (UserId == null || UserId.isBlank()) throw new IllegalArgumentException("User ID cannot be blank");
+
         this.UserId = UserId;
     }
 

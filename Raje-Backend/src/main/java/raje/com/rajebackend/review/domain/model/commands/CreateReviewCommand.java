@@ -1,5 +1,6 @@
 package raje.com.rajebackend.review.domain.model.commands;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record CreateReviewCommand(
@@ -7,5 +8,6 @@ public record CreateReviewCommand(
         String userId,
         String contenidoId,
         int rating, // de 0 a 5
-        String text
+        String text,
+        LocalDate createdAt
 ) {}

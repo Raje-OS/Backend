@@ -1,5 +1,6 @@
 package raje.com.rajebackend.review.interfaces.rest.resources;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public record ReviewResource(
@@ -7,5 +8,6 @@ public record ReviewResource(
         String userId,
         String contenidoId,
         int rating,
-        String text
+        String text,
+        LocalDate createdAt
 ) {}

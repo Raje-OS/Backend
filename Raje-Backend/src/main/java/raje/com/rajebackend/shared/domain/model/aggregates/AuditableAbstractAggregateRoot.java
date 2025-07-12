@@ -20,15 +20,8 @@ import java.util.Date;
 @MappedSuperclass
 public class AuditableAbstractAggregateRoot<T extends AbstractAggregateRoot<T>> extends AbstractAggregateRoot<T> {
 
-    @Getter
-    @Column(nullable = false, updatable = false)
-    @CreatedDate
-    private Date createdAt;
 
-    @Getter
-    @LastModifiedDate
-    @Column(nullable = false)
-    private Date updatedAt;
+
 
     public void addDomainEvent(Object event) {
         super.registerEvent(event);

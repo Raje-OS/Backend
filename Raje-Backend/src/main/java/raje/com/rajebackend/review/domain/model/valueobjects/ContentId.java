@@ -9,7 +9,7 @@ public class ContentId {
     protected ContentId() {}
 
     public ContentId(String contenidoId) {
-        if (contenidoId == null || contenidoId.isBlank()) throw new IllegalArgumentException("Content ID cannot be blank");
+
         this.contenidoId = contenidoId;
     }
 
