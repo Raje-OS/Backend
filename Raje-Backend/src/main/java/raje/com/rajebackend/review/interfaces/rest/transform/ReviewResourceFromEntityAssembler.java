@@ -11,7 +11,8 @@ public class ReviewResourceFromEntityAssembler {
                 review.getUserId().getId(),
                 review.getContenidoId().getId(),
                 review.getRating().getValue(),
-                review.getText()
+                review.getText(),
+                review.getCreatedAt()
 
         );
     }

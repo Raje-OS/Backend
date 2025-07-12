@@ -4,17 +4,17 @@ import jakarta.persistence.Embeddable;
 
 @Embeddable
 public class Rating {
-    private int value;
+    private int rating;
 
     protected Rating() {}
 
-    public Rating(int value) {
-        if (value < 0 || value > 5)
+    public Rating(int rating) {
+        if (rating < 0 || rating > 5)
             throw new IllegalArgumentException("Rating must be between 0 and 5");
-        this.value = value;
+        this.rating = rating;
     }
 
     public int getValue() {
-        return value;
+        return rating;
     }
 }
