@@ -32,6 +32,7 @@ public class Author extends AuditableAbstractAggregateRoot<Author> {
         this.imagen = "";
     }
 
+    
     public Author(CreateAuthorCommand command) {
         this.id = command.id();
         this.nombre = command.nombre();
@@ -41,6 +42,7 @@ public class Author extends AuditableAbstractAggregateRoot<Author> {
         this.imagen = command.imagen();
     }
 
+    
     public Author updateInfo(String descripcion, String imagen) {
         this.descripcion = descripcion;
         this.imagen = imagen;
